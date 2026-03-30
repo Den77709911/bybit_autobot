@@ -8,7 +8,6 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
 async function sendTelegram(text) {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
@@ -30,10 +29,6 @@ app.get('/', function (req, res) {
 app.post('/webhook', async function (req, res) {
   try {
     const body = req.body;
-
-    if (!body.secret || body.secret !== WEBHOOK_SECRET) {
-      return res.status(401).json({ ok: false, error: 'bad secret' });
-    }
 
     console.log('Webhook received:', body);
 
